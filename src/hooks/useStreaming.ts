@@ -41,7 +41,7 @@ export function useStreaming() {
     inputMode: 'simulation',
     currentPrediction: null,
     predictionHistory: [],
-    backendUrl: 'http://10.13.116.76:5000',
+    backendUrl: import.meta.env.VITE_BACKEND_URL || 'http://172.16.11.30:5000',
     demoMode: false,
   });
 

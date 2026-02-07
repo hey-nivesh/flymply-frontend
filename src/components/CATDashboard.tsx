@@ -20,7 +20,7 @@ export function CATDashboard() {
   const [prediction, setPrediction] = useState<PredictionData | null>(null);
   const [loading, setLoading] = useState(true);
   const [lastUpdate, setLastUpdate] = useState<Date>(new Date());
-  const [backendUrl, setBackendUrl] = useState('http://localhost:5000');
+  const [backendUrl, setBackendUrl] = useState(import.meta.env.VITE_BACKEND_URL || 'http://172.16.11.30:5000');
 
   const fetchPrediction = async () => {
     try {

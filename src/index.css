@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -92,21 +92,25 @@
     font-family: 'Inter', system-ui, sans-serif;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     font-family: 'Orbitron', sans-serif;
     @apply tracking-wider;
   }
 }
 
 @layer components {
+
   /* Glassmorphism Panel - Clean sharp aesthetic */
   .glass-panel {
     @apply relative overflow-hidden;
-    background: linear-gradient(
-      180deg,
-      hsl(220 25% 6% / 0.95) 0%,
-      hsl(220 20% 4% / 0.98) 100%
-    );
+    background: linear-gradient(180deg,
+        hsl(220 25% 6% / 0.95) 0%,
+        hsl(220 20% 4% / 0.98) 100%);
     backdrop-filter: blur(24px);
     -webkit-backdrop-filter: blur(24px);
     border: 1px solid hsl(0 0% 100% / 0.1);
@@ -115,11 +119,9 @@
   .glass-panel::before {
     content: '';
     @apply absolute inset-0 pointer-events-none;
-    background: linear-gradient(
-      180deg,
-      hsl(0 0% 100% / 0.02) 0%,
-      transparent 40%
-    );
+    background: linear-gradient(180deg,
+        hsl(0 0% 100% / 0.02) 0%,
+        transparent 40%);
   }
 
   /* Glow Border - Subtle white */
@@ -130,7 +132,7 @@
   .glow-border::after {
     content: '';
     @apply absolute inset-0 pointer-events-none;
-    box-shadow: 
+    box-shadow:
       0 0 20px hsl(0 0% 100% / 0.05),
       inset 0 0 15px hsl(0 0% 100% / 0.02);
   }
@@ -148,7 +150,7 @@
   .btn-tactical:hover {
     background: hsl(0 0% 95%);
     border-color: hsl(0 0% 100%);
-    box-shadow: 
+    box-shadow:
       0 0 30px hsl(0 0% 100% / 0.2),
       0 4px 20px hsl(0 0% 0% / 0.3);
     transform: translateY(-1px);
@@ -211,18 +213,16 @@
   /* Scanline Effect */
   .scanlines {
     @apply pointer-events-none fixed inset-0 z-50;
-    background: repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      hsl(195 100% 50% / 0.01) 2px,
-      hsl(195 100% 50% / 0.01) 4px
-    );
+    background: repeating-linear-gradient(0deg,
+        transparent,
+        transparent 2px,
+        hsl(195 100% 50% / 0.01) 2px,
+        hsl(195 100% 50% / 0.01) 4px);
   }
 
   /* Grid Background - Subtler */
   .aero-grid {
-    background-image: 
+    background-image:
       linear-gradient(hsl(0 0% 100% / 0.015) 1px, transparent 1px),
       linear-gradient(90deg, hsl(0 0% 100% / 0.015) 1px, transparent 1px);
     background-size: 60px 60px;
@@ -237,22 +237,18 @@
   /* Advisory Display - Clean dark */
   .advisory-display {
     @apply relative overflow-hidden;
-    background: linear-gradient(
-      180deg,
-      hsl(220 30% 2%) 0%,
-      hsl(220 25% 3%) 100%
-    );
+    background: linear-gradient(180deg,
+        hsl(220 30% 2%) 0%,
+        hsl(220 25% 3%) 100%);
     border: 1px solid hsl(0 0% 100% / 0.08);
   }
 
   .advisory-display::before {
     content: '';
     @apply absolute inset-0 pointer-events-none;
-    background: linear-gradient(
-      180deg,
-      hsl(0 0% 100% / 0.01) 0%,
-      transparent 50%
-    );
+    background: linear-gradient(180deg,
+        hsl(0 0% 100% / 0.01) 0%,
+        transparent 50%);
   }
 
   /* Severity Badges */
@@ -276,16 +272,15 @@
 
   .progress-aero-fill {
     @apply h-full rounded-full transition-all duration-300;
-    background: linear-gradient(
-      90deg,
-      hsl(var(--aero-cyan)) 0%,
-      hsl(var(--aero-electric)) 100%
-    );
+    background: linear-gradient(90deg,
+        hsl(var(--aero-cyan)) 0%,
+        hsl(var(--aero-electric)) 100%);
     box-shadow: 0 0 10px hsl(var(--aero-cyan) / 0.5);
   }
 }
 
 @layer utilities {
+
   /* Text Glow */
   .text-glow-cyan {
     text-shadow: 0 0 10px hsl(var(--aero-cyan) / 0.5);
@@ -303,13 +298,11 @@
   .gradient-border-animated::before {
     content: '';
     @apply absolute -inset-px rounded-[inherit] -z-10;
-    background: linear-gradient(
-      var(--gradient-angle, 0deg),
-      hsl(var(--aero-cyan)),
-      hsl(var(--aero-magenta)),
-      hsl(var(--aero-electric)),
-      hsl(var(--aero-cyan))
-    );
+    background: linear-gradient(var(--gradient-angle, 0deg),
+        hsl(var(--aero-cyan)),
+        hsl(var(--aero-magenta)),
+        hsl(var(--aero-electric)),
+        hsl(var(--aero-cyan)));
     animation: gradient-rotate 4s linear infinite;
   }
 
@@ -325,10 +318,13 @@
 
 /* Keyframes */
 @keyframes pulse-glow {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
     transform: scale(1);
   }
+
   50% {
     opacity: 0.5;
     transform: scale(1.5);
@@ -339,6 +335,7 @@
   0% {
     --gradient-angle: 0deg;
   }
+
   100% {
     --gradient-angle: 360deg;
   }
@@ -348,24 +345,31 @@
   0% {
     transform: translateY(-100%);
   }
+
   100% {
     transform: translateY(100%);
   }
 }
 
 @keyframes float {
-  0%, 100% {
+
+  0%,
+  100% {
     transform: translateY(0);
   }
+
   50% {
     transform: translateY(-5px);
   }
 }
 
 @keyframes data-pulse {
-  0%, 100% {
+
+  0%,
+  100% {
     opacity: 1;
   }
+
   50% {
     opacity: 0.7;
   }
@@ -395,4 +399,25 @@
   syntax: '<angle>';
   initial-value: 0deg;
   inherits: false;
+}
+
+@layer utilities {
+  .glass {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
+  }
+
+  .glass-dark {
+    @apply bg-black/40 backdrop-blur-lg border border-white/5;
+  }
+
+  .radar-grid {
+    background-image:
+      linear-gradient(to right, rgba(56, 189, 248, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(56, 189, 248, 0.05) 1px, transparent 1px);
+    background-size: 40px 40px;
+  }
+
+  .glow-sky {
+    box-shadow: 0 0 20px rgba(56, 189, 248, 0.2);
+  }
 }

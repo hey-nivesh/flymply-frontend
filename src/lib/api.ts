@@ -12,7 +12,8 @@ export interface PredictionResponse {
   advisory: string;
 }
 
-const DEFAULT_BACKEND_URL = 'http://10.13.116.76:5000';
+// Get backend URL from environment variable, fallback to default
+const DEFAULT_BACKEND_URL = import.meta.env.VITE_BACKEND_URL || 'http://172.16.11.30:5000';
 
 // Configuration matching backend test_predict.py
 const WINDOW_SIZE = 50;

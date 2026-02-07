@@ -6,6 +6,7 @@ import { InputPanel } from '@/components/InputPanel';
 import { RiskPanel } from '@/components/RiskPanel';
 import { TelemetryPanel } from '@/components/TelemetryPanel';
 import { AirplaneBackground } from '@/components/AirplaneBackground';
+import { AironAssistant } from '@/components/AironAssistant';
 import { useStreaming } from '@/hooks/useStreaming';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
@@ -126,6 +127,11 @@ export function DashboardPage() {
             <RiskPanel
               prediction={state.currentPrediction}
               isStreaming={state.isStreaming}
+            />
+            {/* Airon Voice Assistant */}
+            <AironAssistant
+              currentPrediction={state.currentPrediction}
+              backendUrl={state.backendUrl}
             />
           </motion.section>
 
