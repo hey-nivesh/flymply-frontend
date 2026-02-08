@@ -30,18 +30,15 @@ export function DashboardPage() {
   const [mobileInputOpen, setMobileInputOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-background aero-grid relative flex flex-col">
+    <div className="min-h-screen bg-slate-950/90 aero-grid relative flex flex-col overflow-hidden">
       {/* 3D Airplane Background */}
       <AirplaneBackground />
-      
-      {/* Subtle scanlines overlay */}
-      <div className="scanlines opacity-20" />
-      
-      {/* Subtle vignette overlay */}
-      <div 
+
+      {/* Subtle vignette overlay - lighter for modern feel */}
+      <div
         className="fixed inset-0 pointer-events-none z-10"
         style={{
-          background: 'radial-gradient(ellipse at 50% 50%, transparent 0%, hsl(220 30% 1% / 0.4) 100%)',
+          background: 'radial-gradient(ellipse at 50% 50%, transparent 40%, rgba(0,0,0,0.4) 100%)',
         }}
       />
 
@@ -154,7 +151,7 @@ export function DashboardPage() {
         initial={{ y: 20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ delay: 0.5 }}
-        className="glass-panel border-t border-white/10 z-30"
+        className="glass border-t border-white/10 z-30"
       >
         <div className="container px-6 py-2.5 flex items-center justify-between">
           <div className="flex items-center gap-6">

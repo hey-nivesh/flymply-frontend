@@ -84,8 +84,9 @@ export function InputPanel({
       initial={{ x: -30, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.2 }}
-      className="glass-panel p-5 border border-white/10"
+      className="glass p-5 border border-white/10 rounded-2xl relative overflow-hidden"
     >
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
       {/* Panel Header */}
       <div className="flex items-center gap-3 mb-8 pb-4 border-b border-white/10">
         <Database className="h-5 w-5 text-foreground" />

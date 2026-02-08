@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  AlertTriangle, 
-  Shield, 
+import {
+  AlertTriangle,
+  Shield,
   Target,
   Clock,
   Activity,
@@ -55,8 +55,9 @@ export function RiskPanel({ prediction, isStreaming }: RiskPanelProps) {
       initial={{ y: 30, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.3 }}
-      className="glass-panel p-8 border border-white/10"
+      className="glass p-8 border border-white/10 rounded-2xl relative overflow-hidden"
     >
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
       {/* Panel Header */}
       <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
         <div className="flex items-center gap-3">
@@ -76,35 +77,59 @@ export function RiskPanel({ prediction, isStreaming }: RiskPanelProps) {
       {/* Main Gauge Section */}
       <div className="flex-1 flex flex-col items-center justify-center py-8">
         {/* Circular Gauge */}
-        <div className="relative w-52 h-52 mb-8">
-          {/* Background Arc */}
+        <div className="relative w-64 h-64 mb-8">
           <svg className="absolute inset-0 w-full h-full -rotate-90" viewBox="0 0 100 100">
+            <defs>
+              <linearGradient id="gaugeGradientLow" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#22c55e" />
+                <stop offset="100%" stopColor="#4ade80" />
+              </linearGradient>
+              <linearGradient id="gaugeGradientMed" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#f59e0b" />
+                <stop offset="100%" stopColor="#fbbf24" />
+              </linearGradient>
+              <linearGradient id="gaugeGradientHigh" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" stopColor="#ef4444" />
+                <stop offset="100%" stopColor="#f87171" />
+              </linearGradient>
+            </defs>
+            {/* Background Track - Subtle Segmented Look */}
             <circle
               cx="50"
               cy="50"
-              r="42"
+              r="44"
               fill="none"
-              stroke="hsl(220 30% 15%)"
-              strokeWidth="6"
-              strokeLinecap="round"
-              strokeDasharray="132 264"
+              stroke="rgba(255,255,255,0.03)"
+              strokeWidth="12"
+              strokeLinecap="butt"
+              strokeDasharray="1.5 1.5"
             />
             {/* Progress Arc */}
             <motion.circle
               cx="50"
               cy="50"
-              r="42"
+              r="44"
               fill="none"
-              stroke={severity === 'High' ? 'hsl(0 72% 51%)' : severity === 'Moderate' ? 'hsl(38 92% 50%)' : 'hsl(142 76% 45%)'}
-              strokeWidth="6"
+              stroke={severity === 'High' ? 'url(#gaugeGradientHigh)' : severity === 'Moderate' ? 'url(#gaugeGradientMed)' : 'url(#gaugeGradientLow)'}
+              strokeWidth="10"
               strokeLinecap="round"
-              strokeDasharray={`${probability * 132} 264`}
-              initial={{ strokeDasharray: '0 264' }}
-              animate={{ strokeDasharray: `${probability * 132} 264` }}
-              transition={{ duration: 0.8, ease: 'easeOut' }}
-              style={{
-                filter: `drop-shadow(0 0 8px ${severity === 'High' ? 'hsl(0 72% 51%)' : severity === 'Moderate' ? 'hsl(38 92% 50%)' : 'hsl(142 76% 45%)'})`,
-              }}
+              strokeDasharray={`${probability * 138} 276`}
+              initial={{ strokeDasharray: '0 276' }}
+              animate={{ strokeDasharray: `${probability * 138} 276` }}
+              transition={{ duration: 1.5, ease: [0.34, 1.56, 0.64, 1] }}
+            />
+            {/* Arc Tip Indicator */}
+            <motion.circle
+              cx="50"
+              cy="50"
+              r="44"
+              fill="none"
+              stroke="white"
+              strokeWidth="4"
+              strokeLinecap="round"
+              strokeDasharray={`0.1 276`}
+              animate={{ strokeDashoffset: -(probability * 138) }}
+              transition={{ duration: 1.5, ease: [0.34, 1.56, 0.64, 1] }}
             />
           </svg>
 
@@ -113,32 +138,40 @@ export function RiskPanel({ prediction, isStreaming }: RiskPanelProps) {
             <AnimatePresence mode="wait">
               <motion.div
                 key={probability}
-                initial={{ scale: 0.8, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                exit={{ scale: 0.8, opacity: 0 }}
-                transition={{ duration: 0.3 }}
-                className="text-center"
+                initial={{ scale: 0.9, opacity: 0, filter: 'blur(10px)' }}
+                animate={{ scale: 1, opacity: 1, filter: 'blur(0px)' }}
+                exit={{ scale: 0.9, opacity: 0, filter: 'blur(10px)' }}
+                transition={{ duration: 0.4 }}
+                className="text-center relative z-10"
               >
-                <span className={`font-orbitron text-4xl font-bold ${getSeverityColor(severity)} text-glow-cyan`}>
-                  {(probability * 100).toFixed(0)}
-                </span>
-                <span className="text-xl text-muted-foreground">%</span>
-                <p className="font-mono text-xs text-muted-foreground mt-1 uppercase tracking-wider">
-                  Probability
-                </p>
+                <div className="flex items-start justify-center">
+                  <span className={`font-orbitron text-7xl font-black tracking-tighter ${getSeverityColor(severity)} contrast-125`}>
+                    {(probability * 100).toFixed(0)}
+                  </span>
+                  <span className={`text-2xl font-bold mt-4 ml-1 ${getSeverityColor(severity)} opacity-60`}>%</span>
+                </div>
+                <div className="flex flex-col items-center -mt-2">
+                  <div className="h-[2px] w-12 bg-white/10 mb-2" />
+                  <span className="font-rajdhani text-[10px] font-bold text-white/30 uppercase tracking-[0.4em]">
+                    Probability Score
+                  </span>
+                  <motion.div
+                    animate={{ opacity: [0.4, 1, 0.4] }}
+                    transition={{ duration: 3, repeat: Infinity }}
+                    className={`font-mono text-[9px] px-2 py-0.5 mt-1 border border-white/10 bg-white/5 rounded tracking-widest ${getSeverityColor(severity)}`}
+                  >
+                    STATE::{severity.toUpperCase()}
+                  </motion.div>
+                </div>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Glow Effect */}
-          <motion.div
-            className="absolute inset-0 rounded-full"
-            style={{
-              background: `radial-gradient(circle, ${severity === 'High' ? 'hsl(0 72% 51% / 0.1)' : severity === 'Moderate' ? 'hsl(38 92% 50% / 0.1)' : 'hsl(142 76% 45% / 0.1)'} 0%, transparent 70%)`,
-            }}
-            animate={isStreaming ? { opacity: [0.3, 0.6, 0.3] } : { opacity: 0.3 }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
+          {/* Technical Rings */}
+          <div className="absolute inset-2 border-[0.5px] border-white/5 rounded-full pointer-events-none" />
+          <div className="absolute inset-10 border-[0.5px] border-white/5 rounded-full pointer-events-none" />
+          <div className="absolute inset-0 border border-white/10 rounded-full animate-spin-slow opacity-20 pointer-events-none"
+            style={{ borderStyle: 'dashed', animationDuration: '30s' }} />
         </div>
 
         {/* Status Badges */}
@@ -148,8 +181,8 @@ export function RiskPanel({ prediction, isStreaming }: RiskPanelProps) {
             animate={{ scale: 1 }}
             transition={{ delay: 0.5, type: 'spring' }}
           >
-            <Badge 
-              variant="outline" 
+            <Badge
+              variant="outline"
               className={`font-orbitron text-xs tracking-wider px-4 py-1.5 border ${getSeverityBg(severity)}`}
             >
               <AlertTriangle className="h-3 w-3 mr-2" />
@@ -162,8 +195,8 @@ export function RiskPanel({ prediction, isStreaming }: RiskPanelProps) {
             animate={{ scale: 1 }}
             transition={{ delay: 0.6, type: 'spring' }}
           >
-            <Badge 
-              variant="outline" 
+            <Badge
+              variant="outline"
               className={`font-orbitron text-xs tracking-wider px-4 py-1.5 border border-white/20 ${getConfidenceColor(confidence)}`}
             >
               <Shield className="h-3 w-3 mr-2" />

@@ -7,23 +7,23 @@ export default function HowItWorks() {
     const steps = [
         {
             icon: <Database className="w-6 h-6" />,
-            title: "Data Collection",
-            desc: "Continuously collects real‑time weather data from global sensors."
+            title: "Data Ingestion",
+            desc: "Collects global ADS-B data, satellite imagery, and localized PIREPs (Pilot Reports)."
         },
         {
             icon: <Cpu className="w-6 h-6" />,
-            title: "Atmospheric Analysis",
-            desc: "Processes key atmospheric indicators including pressure and wind shear."
+            title: "AI Analysis",
+            desc: "The model calculates the Richardson Number (Ri) and TKE to partition turbulence types."
         },
         {
             icon: <BarChart className="w-6 h-6" />,
-            title: "AI Risk Estimation",
-            desc: "Uses proprietary AI models to estimate the probability of turbulence."
+            title: "Predictive Output",
+            desc: "Generates a 4D trajectory-based forecast with 90% accuracy."
         },
         {
             icon: <Layout className="w-6 h-6" />,
-            title: "Visual Dashboard",
-            desc: "Displays the risk as a live percentage on a mission-critical dashboard."
+            title: "Actionable Alerts",
+            desc: "Delivers instantaneous updates to the cockpit and airline operations center."
         }
     ];
 

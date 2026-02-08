@@ -1,15 +1,15 @@
 import { motion } from 'framer-motion';
-import { 
-  LineChart, 
-  Line, 
-  XAxis, 
-  YAxis, 
+import {
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
   ResponsiveContainer,
   Tooltip,
   ReferenceLine,
 } from 'recharts';
-import { 
-  TrendingUp, 
+import {
+  TrendingUp,
   Clock,
   AlertCircle,
 } from 'lucide-react';
@@ -49,11 +49,11 @@ export function TelemetryPanel({ predictionHistory }: TelemetryPanelProps) {
   };
 
   const formatTime = (date: Date) => {
-    return date.toLocaleTimeString('en-US', { 
-      hour: '2-digit', 
-      minute: '2-digit', 
+    return date.toLocaleTimeString('en-US', {
+      hour: '2-digit',
+      minute: '2-digit',
       second: '2-digit',
-      hour12: false 
+      hour12: false
     });
   };
 
@@ -62,8 +62,9 @@ export function TelemetryPanel({ predictionHistory }: TelemetryPanelProps) {
       initial={{ x: 30, opacity: 0 }}
       animate={{ x: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.4 }}
-      className="glass-panel p-5 border border-white/10"
+      className="glass p-5 border border-white/10 rounded-2xl relative overflow-hidden"
     >
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
       {/* Panel Header */}
       <div className="flex items-center gap-3 mb-6 pb-4 border-b border-white/10">
         <TrendingUp className="h-5 w-5 text-foreground" />
@@ -87,24 +88,24 @@ export function TelemetryPanel({ predictionHistory }: TelemetryPanelProps) {
                     <stop offset="100%" stopColor="hsl(195 100% 50%)" stopOpacity={0.1} />
                   </linearGradient>
                 </defs>
-                <XAxis 
-                  dataKey="index" 
-                  hide 
+                <XAxis
+                  dataKey="index"
+                  hide
                 />
-                <YAxis 
+                <YAxis
                   domain={[0, 100]}
                   hide
                 />
-                <ReferenceLine 
-                  y={30} 
-                  stroke="hsl(142 76% 45%)" 
-                  strokeDasharray="3 3" 
+                <ReferenceLine
+                  y={30}
+                  stroke="hsl(142 76% 45%)"
+                  strokeDasharray="3 3"
                   strokeOpacity={0.3}
                 />
-                <ReferenceLine 
-                  y={70} 
-                  stroke="hsl(0 72% 51%)" 
-                  strokeDasharray="3 3" 
+                <ReferenceLine
+                  y={70}
+                  stroke="hsl(0 72% 51%)"
+                  strokeDasharray="3 3"
                   strokeOpacity={0.3}
                 />
                 <Tooltip
@@ -128,8 +129,8 @@ export function TelemetryPanel({ predictionHistory }: TelemetryPanelProps) {
                   stroke="hsl(195 100% 50%)"
                   strokeWidth={2}
                   dot={false}
-                  activeDot={{ 
-                    r: 4, 
+                  activeDot={{
+                    r: 4,
                     fill: 'hsl(195 100% 50%)',
                     stroke: 'hsl(195 100% 70%)',
                     strokeWidth: 2,
@@ -153,7 +154,7 @@ export function TelemetryPanel({ predictionHistory }: TelemetryPanelProps) {
           <Clock className="h-3 w-3" />
           Recent Advisories
         </p>
-        
+
         <ScrollArea className="h-[calc(100%-24px)]">
           {predictionHistory.length > 0 ? (
             <div className="space-y-2 pr-2">

@@ -1,34 +1,29 @@
 
 import React from "react";
 import { motion } from "framer-motion";
-import { Zap, Target, Palette, LayoutDashboard, CloudRain } from "lucide-react";
+import { Zap, Target, LayoutDashboard, BarChart } from "lucide-react";
 
 export default function Features() {
     const features = [
         {
             icon: <Zap className="w-6 h-6 text-sky-400" />,
-            title: "Real‑time Prediction",
-            desc: "Live processing of atmospheric data for instantaneous risk assessment."
+            title: "Intelligent Cockpit Integration",
+            desc: "Specialized EFB plugin providing pilots with a visual \"OneLayer\" view of turbulence intensity (EDR)."
         },
         {
             icon: <Target className="w-6 h-6 text-sky-400" />,
-            title: "Percentage‑Based Output",
-            desc: "Clear, quantified probability scores instead of vague advisories."
-        },
-        {
-            icon: <Palette className="w-6 h-6 text-sky-400" />,
-            title: "Color‑Coded Levels",
-            desc: "Intuitive Green/Amber/Red visual hierarchy for immediate awareness."
+            title: "AI Voice Assistant",
+            desc: "Hands-free alerts for pilots and calm, automated updates for passengers explaining expected bumps."
         },
         {
             icon: <LayoutDashboard className="w-6 h-6 text-sky-400" />,
-            title: "Intuitive Dashboard",
-            desc: "Streamlined interface designed for the high-stress cockpit environment."
+            title: "Airline Operations Dashboard",
+            desc: "Full-fleet visibility, live fleet maps, and deep-dive charts for route optimization."
         },
         {
-            icon: <CloudRain className="w-6 h-6 text-sky-400" />,
-            title: "Uses Existing Data",
-            desc: "No expensive hardware upgrades needed; works with standard weather feeds."
+            icon: <BarChart className="w-6 h-6 text-sky-400" />,
+            title: "Interactive Reporting",
+            desc: "Probability charts for 12hr forecasts and real-time stability metrics (Thermal vs Mechanical)."
         }
     ];
 

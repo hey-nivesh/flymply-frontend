@@ -100,8 +100,8 @@ export default function LiveDemo() {
                                 <Wind className="w-6 h-6 text-sky-400" />
                             </div>
                             <div>
-                                <h3 className="text-white font-bold mb-1 uppercase text-xs tracking-widest font-rajdhani">Clear-Air Detection</h3>
-                                <p className="text-slate-400 text-sm font-inter">Identifying atmospheric patterns invisible to conventional radar.</p>
+                                <h3 className="text-white font-bold mb-1 uppercase text-xs tracking-widest font-rajdhani">Multi-Type Detection</h3>
+                                <p className="text-slate-400 text-sm font-inter">Identifying Mechanical, Thermal, and Wave-Induced turbulence patterns.</p>
                             </div>
                         </div>
 
@@ -110,8 +110,8 @@ export default function LiveDemo() {
                                 <Activity className="w-6 h-6 text-emerald-400" />
                             </div>
                             <div>
-                                <h3 className="text-white font-bold mb-1 uppercase text-xs tracking-widest font-rajdhani">Decision Support</h3>
-                                <p className="text-slate-400 text-sm font-inter">Real-time risk scoring for flight crew and safety operations teams.</p>
+                                <h3 className="text-white font-bold mb-1 uppercase text-xs tracking-widest font-rajdhani">Actionable Alerts</h3>
+                                <p className="text-slate-400 text-sm font-inter">Instantaneous updates for flight crew and operations centers.</p>
                             </div>
                         </div>
 

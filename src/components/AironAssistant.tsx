@@ -25,7 +25,7 @@ export function AironAssistant({ currentPrediction, backendUrl }: AironAssistant
   const [micPermissionStatus, setMicPermissionStatus] = useState<'unknown' | 'granted' | 'denied' | 'prompt'>('unknown');
   const [isFetchingPrediction, setIsFetchingPrediction] = useState(false);
   const lastTurbulenceQueryRef = useRef<string>('');
-  
+
   // Refs for audio processing
   const audioContextsRef = useRef<{ input: AudioContext; output: AudioContext } | null>(null);
   const nextStartTimeRef = useRef<number>(0);
@@ -38,13 +38,13 @@ export function AironAssistant({ currentPrediction, backendUrl }: AironAssistant
     try {
       console.log('[Airon] Fetching turbulence prediction from backend...');
       setIsFetchingPrediction(true);
-      
+
       // Generate a dummy window (in production, this would come from actual sensor data)
       const window = generateDummyWindow('turbulent');
-      
+
       const prediction = await predictTurbulence(window, backendUrl, false);
       console.log('[Airon] Prediction received:', prediction);
-      
+
       setIsFetchingPrediction(false);
       return prediction;
     } catch (error: any) {
@@ -63,7 +63,7 @@ export function AironAssistant({ currentPrediction, backendUrl }: AironAssistant
       'clear air', 'cat', 'weather', 'conditions',
       'forecast', 'prediction', 'assessment'
     ];
-    
+
     return turbulenceKeywords.some(keyword => lowerText.includes(keyword));
   }, []);
 
@@ -101,7 +101,7 @@ Always reference the latest data from the backend prediction system.`;
 
   const stopAllAudio = () => {
     sourcesRef.current.forEach(source => {
-      try { source.stop(); } catch(e) {}
+      try { source.stop(); } catch (e) { }
     });
     sourcesRef.current.clear();
     nextStartTimeRef.current = 0;
@@ -135,7 +135,7 @@ Always reference the latest data from the backend prediction system.`;
     try {
       setStatus(ConnectionStatus.CONNECTING);
       console.log('[Airon] Requesting microphone access...');
-      
+
       // Check if MediaDevices API is available
       if (!navigator.mediaDevices) {
         const errorMsg = 'MediaDevices API not available. This usually means:\n1. The page is not served over HTTPS\n2. You are using an unsupported browser\n\nPlease use HTTPS (https://) or localhost.';
@@ -152,17 +152,17 @@ Always reference the latest data from the backend prediction system.`;
         setStatus(ConnectionStatus.ERROR);
         return;
       }
-      
+
       // Request microphone permission
       let stream: MediaStream;
       try {
-        stream = await navigator.mediaDevices.getUserMedia({ 
+        stream = await navigator.mediaDevices.getUserMedia({
           audio: {
             echoCancellation: true,
             noiseSuppression: true,
             autoGainControl: true,
             sampleRate: 16000
-          } 
+          }
         });
         console.log('[Airon] Microphone access granted');
         streamRef.current = stream;
@@ -170,7 +170,7 @@ Always reference the latest data from the backend prediction system.`;
         setErrorMessage(null);
       } catch (mediaError: any) {
         let errorMsg = '';
-        
+
         if (mediaError.name === 'NotAllowedError') {
           errorMsg = 'Microphone permission denied. Please:\n1. Click the microphone icon in your browser\'s address bar\n2. Allow microphone access\n3. Or click "Request Permission" button below';
           setMicPermissionStatus('denied');
@@ -181,7 +181,7 @@ Always reference the latest data from the backend prediction system.`;
         } else {
           errorMsg = `Microphone error: ${mediaError.message || mediaError.name || 'Unknown error'}`;
         }
-        
+
         console.error('[Airon]', errorMsg, mediaError);
         setErrorMessage(errorMsg);
         setStatus(ConnectionStatus.ERROR);
@@ -192,7 +192,7 @@ Always reference the latest data from the backend prediction system.`;
       console.log('[Airon] Creating audio contexts...');
       let inputCtx: AudioContext;
       let outputCtx: AudioContext;
-      
+
       try {
         inputCtx = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 16000 });
         outputCtx = new (window.AudioContext || (window as any).webkitAudioContext)({ sampleRate: 24000 });
@@ -213,10 +213,10 @@ Always reference the latest data from the backend prediction system.`;
       // Initialize Gemini AI
       console.log('[Airon] Initializing GoogleGenAI...');
       const ai = new GoogleGenAI({ apiKey: geminiApiKey });
-      
+
       const systemInstruction = buildSystemInstruction();
       console.log('[Airon] System instruction length:', systemInstruction.length);
-      
+
       console.log('[Airon] Connecting to Gemini Live API...');
       const sessionPromise = ai.live.connect({
         model: 'gemini-2.5-flash-native-audio-preview-12-2025',
@@ -234,11 +234,11 @@ Always reference the latest data from the backend prediction system.`;
             console.log('[Airon] Connection opened successfully');
             setStatus(ConnectionStatus.CONNECTED);
             setErrorMessage(null);
-            
+
             try {
               const source = inputCtx.createMediaStreamSource(stream);
               const scriptProcessor = inputCtx.createScriptProcessor(4096, 1, 1);
-              
+
               scriptProcessor.onaudioprocess = (e) => {
                 if (isMuted) return;
                 try {
@@ -280,12 +280,12 @@ Always reference the latest data from the backend prediction system.`;
                 const text = message.serverContent.inputTranscription.text;
                 console.log('[Airon] User transcription:', text);
                 setTranscriptions(prev => [...prev.slice(-10), { text, role: 'user' }]);
-                
+
                 // Check if user is asking about turbulence and fetch from backend
                 if (isTurbulenceQuery(text) && text !== lastTurbulenceQueryRef.current) {
                   lastTurbulenceQueryRef.current = text;
                   console.log('[Airon] Detected turbulence query, fetching from backend...');
-                  
+
                   fetchTurbulencePrediction().then((prediction) => {
                     if (prediction && sessionRef.current) {
                       const probPercent = Math.round(prediction.turbulence_probability * 100);
@@ -297,7 +297,7 @@ Advisory: ${prediction.advisory || 'No advisory available'}
 Anomaly Score: ${prediction.anomaly_score.toFixed(5)}
 
 Use this real-time data to provide an accurate answer to the pilot's question.`;
-                      
+
                       try {
                         // Send the prediction data as text input to the session
                         // Note: Gemini Live API accepts text input via sendRealtimeInput
@@ -358,7 +358,7 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
                     24000,
                     1
                   );
-                  
+
                   console.log('[Airon] Playing audio response, duration:', audioBuffer.duration);
                   nextStartTimeRef.current = Math.max(nextStartTimeRef.current, outputCtx.currentTime);
                   const source = outputCtx.createBufferSource();
@@ -417,7 +417,7 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
       });
       setErrorMessage(errorMsg);
       setStatus(ConnectionStatus.ERROR);
-      
+
       // Cleanup on error
       if (streamRef.current) {
         streamRef.current.getTracks().forEach(track => track.stop());
@@ -429,10 +429,10 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
   const disconnect = () => {
     console.log('[Airon] Disconnecting...');
     if (sessionRef.current) {
-      try { 
+      try {
         sessionRef.current.close();
         console.log('[Airon] Session closed');
-      } catch(e: any) {
+      } catch (e: any) {
         console.error('[Airon] Error closing session:', e);
       }
     }
@@ -456,11 +456,11 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
   useEffect(() => {
     const checkMicPermission = async () => {
       // Check if we're on HTTPS or localhost
-      const isSecure = window.location.protocol === 'https:' || 
-                       window.location.hostname === 'localhost' || 
-                       window.location.hostname === '127.0.0.1' ||
-                       window.location.hostname === '[::1]';
-      
+      const isSecure = window.location.protocol === 'https:' ||
+        window.location.hostname === 'localhost' ||
+        window.location.hostname === '127.0.0.1' ||
+        window.location.hostname === '[::1]';
+
       if (!isSecure) {
         console.warn('[Airon] Not on HTTPS or localhost - MediaDevices API requires secure context');
         const errorMsg = 'Microphone access requires HTTPS or localhost.\n\nPlease:\n1. Use https:// instead of http://\n2. Or access via localhost:8080\n3. Or use 127.0.0.1:8080';
@@ -488,7 +488,7 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
         if (navigator.permissions && navigator.permissions.query) {
           const result = await navigator.permissions.query({ name: 'microphone' as PermissionName });
           setMicPermissionStatus(result.state as 'granted' | 'denied' | 'prompt');
-          
+
           result.onchange = () => {
             setMicPermissionStatus(result.state as 'granted' | 'denied' | 'prompt');
           };
@@ -534,27 +534,27 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
     }
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ 
+      const stream = await navigator.mediaDevices.getUserMedia({
         audio: {
           echoCancellation: true,
           noiseSuppression: true,
           autoGainControl: true,
-        } 
+        }
       });
-      
+
       console.log('[Airon] Microphone permission granted');
       setMicPermissionStatus('granted');
       setErrorMessage(null);
-      
+
       // Stop the stream immediately - we just needed permission
       stream.getTracks().forEach(track => track.stop());
     } catch (error: any) {
-      const errorMsg = error.name === 'NotAllowedError' 
+      const errorMsg = error.name === 'NotAllowedError'
         ? 'Microphone permission denied. Please allow microphone access in your browser settings.'
         : error.name === 'NotFoundError'
-        ? 'No microphone found. Please connect a microphone and try again.'
-        : `Microphone error: ${error.message || 'Unknown error'}`;
-      
+          ? 'No microphone found. Please connect a microphone and try again.'
+          : `Microphone error: ${error.message || 'Unknown error'}`;
+
       console.error('[Airon]', errorMsg, error);
       setErrorMessage(errorMsg);
       setMicPermissionStatus('denied');
@@ -575,8 +575,9 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
       initial={{ y: 20, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.6, delay: 0.4 }}
-      className="glass-panel p-6 border border-white/10 mt-6"
+      className="glass p-6 border border-white/10 mt-6 rounded-2xl relative overflow-hidden"
     >
+      <div className="absolute inset-0 bg-gradient-to-br from-white/5 to-transparent pointer-events-none" />
       {/* Header */}
       <div className="flex items-center justify-between mb-6 pb-4 border-b border-white/10">
         <div className="flex items-center gap-3">
@@ -586,12 +587,11 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
           </h3>
         </div>
         <div className="flex items-center gap-3">
-          <div className={`px-3 py-1 rounded border text-xs font-bold ${
-            status === ConnectionStatus.CONNECTED ? 'border-aero-lime bg-aero-lime/10 text-aero-lime' : 
-            status === ConnectionStatus.CONNECTING ? 'border-aero-amber bg-aero-amber/10 text-aero-amber' :
-            status === ConnectionStatus.ERROR ? 'border-aero-red bg-aero-red/10 text-aero-red' :
-            'border-white/20 bg-white/5 text-muted-foreground'
-          }`}>
+          <div className={`px-3 py-1 rounded border text-xs font-bold ${status === ConnectionStatus.CONNECTED ? 'border-aero-lime bg-aero-lime/10 text-aero-lime' :
+              status === ConnectionStatus.CONNECTING ? 'border-aero-amber bg-aero-amber/10 text-aero-amber' :
+                status === ConnectionStatus.ERROR ? 'border-aero-red bg-aero-red/10 text-aero-red' :
+                  'border-white/20 bg-white/5 text-muted-foreground'
+            }`}>
             {status}
           </div>
         </div>
@@ -637,8 +637,8 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
           onClick={status === ConnectionStatus.CONNECTED ? disconnect : connectToAiron}
           className={`
             relative w-32 h-32 rounded-full border-2 flex flex-col items-center justify-center transition-all duration-300
-            ${status === ConnectionStatus.CONNECTED 
-              ? 'bg-aero-lime/10 border-aero-lime shadow-[0_0_20px_-8px_rgba(142,76%,45%,0.5)]' 
+            ${status === ConnectionStatus.CONNECTED
+              ? 'bg-aero-lime/10 border-aero-lime shadow-[0_0_20px_-8px_rgba(142,76%,45%,0.5)]'
               : 'bg-white/5 border-white/20 hover:border-aero-lime/50'
             }
           `}
@@ -647,10 +647,10 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
             <>
               <div className="flex gap-1 mb-2">
                 {[1, 2, 3].map(i => (
-                  <div 
-                    key={i} 
-                    className="w-1 h-6 bg-aero-lime rounded-full animate-bounce" 
-                    style={{ animationDelay: `${i * 0.1}s` }} 
+                  <div
+                    key={i}
+                    className="w-1 h-6 bg-aero-lime rounded-full animate-bounce"
+                    style={{ animationDelay: `${i * 0.1}s` }}
                   />
                 ))}
               </div>
@@ -669,13 +669,12 @@ Use this real-time data to provide an accurate answer to the pilot's question.`;
         {/* Secondary Controls */}
         {status === ConnectionStatus.CONNECTED && (
           <div className="flex gap-3">
-            <button 
+            <button
               onClick={toggleMute}
-              className={`p-3 rounded-full border transition-colors ${
-                isMuted 
-                  ? 'bg-aero-red/20 border-aero-red text-aero-red' 
+              className={`p-3 rounded-full border transition-colors ${isMuted
+                  ? 'bg-aero-red/20 border-aero-red text-aero-red'
                   : 'bg-white/5 border-white/20 text-muted-foreground hover:text-foreground'
-              }`}
+                }`}
             >
               {isMuted ? <MicOff className="h-4 w-4" /> : <Mic className="h-4 w-4" />}
             </button>

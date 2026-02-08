@@ -18,12 +18,11 @@ export default function ProblemSolution() {
                             <AlertTriangle className="w-5 h-5" />
                             THE CHALLENGE
                         </div>
-                        <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-tight font-orbitron leading-tight">The Problem with Clear‑Air Turbulence</h2>
+                        <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-tight font-orbitron leading-tight">The Problem with Atmospheric Instability</h2>
                         <p className="text-slate-400 text-lg leading-relaxed font-inter font-light">
-                            Clear‑air turbulence is one of the most unpredictable and dangerous events in aviation.
-                            It cannot be detected by onboard radar and often occurs without any visible warning.
-                            In most cases, pilots are informed only after turbulence has already been encountered,
-                            leaving little time to respond. This impacts passenger safety, comfort, and overall flight efficiency.
+                            Turbulence is unpredictable and often invisible to radar. Whether caused by clear‑air, mechanical friction, or thermal rising,
+                            it poses significant risks. In most cases, pilots are informed only after turbulence has already been encountered,
+                            leaving little time to respond.
                         </p>
                     </motion.div>
 
@@ -79,10 +78,14 @@ export default function ProblemSolution() {
                             <Lightbulb className="w-5 h-5" />
                             OUR SOLUTION
                         </div>
-                        <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-tight font-orbitron leading-tight">A Predictive Approach to Turbulence Awareness</h2>
+                        <h2 className="text-4xl font-black text-white mb-6 uppercase tracking-tight font-orbitron leading-tight">Comprehensive Turbulence Awareness</h2>
                         <p className="text-slate-400 text-lg leading-relaxed mb-6 font-inter font-light">
-                            Flymply uses artificial intelligence to analyze weather conditions and identify patterns that indicate a higher risk of clear‑air turbulence.
-                            Instead of reacting after turbulence occurs, the system predicts the likelihood of turbulence in advance and presents it as a simple percentage‑based risk score.
+                            Flymply provides a 360-degree, AI-driven prediction model that analyzes and anticipates all three major forms of atmospheric instability:
+                            <span className="block mt-4 pl-4 border-l-2 border-sky-400/30">
+                                <strong className="text-sky-400">Mechanical Turbulence:</strong> Real-time monitoring of wind shear and surface friction.<br />
+                                <strong className="text-sky-400">Thermal Turbulence:</strong> Predictive modeling of convective buoyancy.<br />
+                                <strong className="text-sky-400">Wave-Induced Turbulence:</strong> Early warning for mountain waves.
+                            </span>
                         </p>
                         <p className="text-slate-500 text-[10px] font-mono uppercase tracking-widest">
                             Note: Flymply is a decision‑support system and does not control the aircraft.

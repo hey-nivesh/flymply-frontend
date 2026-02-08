@@ -27,11 +27,11 @@ export default function Hero() {
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-black text-white leading-[1.1] mb-6 uppercase tracking-tight font-orbitron">
-                        Predicting <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-400">Clear‑Air Turbulence</span> Before It Happens
+                        Dedicated <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-indigo-400">Turbulence Prediction</span> System
                     </h1>
 
                     <p className="text-xl text-slate-400 max-w-lg mb-10 leading-relaxed font-inter font-light">
-                        An AI‑based early warning system that predicts the probability of clear‑air turbulence using real‑time weather data, helping pilots make safer decisions.
+                        Our system moves beyond simple Clear Air Turbulence (CAT) detection. We provide a 360-degree, AI-driven prediction model that analyzes and anticipates all three major forms of atmospheric instability: Mechanical, Thermal, and Wave-Induced Turbulence.
                     </p>
 
                     <div className="flex flex-wrap gap-4 uppercase tracking-widest text-xs font-bold font-rajdhani">
